@@ -1,0 +1,23 @@
+textarea{
+	background: black;
+	color: white;
+	width:100%;
+	resize: none;
+}
+.resource{
+	width: 200px;
+	padding: 0px;
+}
+.flex-container {
+	display: flex;
+	/*flex-wrap: nowrap;*/
+	flex-direction: row;
+}
+.boxed {
+	border: 2px solid black;
+	margin: 20px;
+	width: 30%;
+	text-align: center;
+	line-height: 75px;
+	font-size: 30px;
+}
