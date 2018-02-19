@@ -1,33 +1,33 @@
 class PubSub {
-	    constructor () {
-	        this.subscribers = [];
-	    }
+        constructor () {
+            this.subscribers = [];
+        }
 
-	    // subscribe allows a new subscriber to listen for changes by providing
-	    // callback function in the parameter
-	    subscribe (fn) {
-	        this.subscribers.push(fn);
-	    }
+        // subscribe allows a new subscriber to listen for changes by providing
+        // callback function in the parameter
+        subscribe (fn) {
+            this.subscribers.push(fn);
+        }
 
-	    // one can publish any data to subscribers
-	    publish (data) {
-	        this.subscribers.forEach(subscriber => {
-	            subscriber(data);
-	        });
-	    }
-	}
+        // one can publish any data to subscribers
+        publish (data) {
+            this.subscribers.forEach(subscriber => {
+                subscriber(data);
+            });
+        }
+    }
 
 
 const pubSub = new PubSub();
-var count = 0;
+// var count = 0;
 const h2_counter = document.querySelector('#resource-counter');
 pubSub.subscribe(action => {
     if (action.type !== 'INC_COUNT') {
         return;
     }
-    count++;
-    window.incrementalGame.state.counter = count;
-   	h2_counter.textContent = window.incrementalGame.state.counter;
+    // count++;
+    // window.incrementalGame.state.counter = count;
+    h2_counter.textContent = window.incrementalGame.state.counter;
     // console.log(window.incrementalGame.state.counter);
 });
 
@@ -36,10 +36,10 @@ const btn_res = document.querySelector('#btn-res');
 btn_res.addEventListener('click', function() {
     pubSub.publish({
         type: 'INC_COUNT',
-        payload: window.incrementalGame.state.counter 	
+        payload: ++window.incrementalGame.state.counter     
     });
 });
-	
+    
 
 window.state = {
     index: -1
