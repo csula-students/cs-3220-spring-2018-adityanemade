@@ -20,6 +20,9 @@ class PubSub {
 
 const pubSub = new PubSub();
 // var count = 0;
+const colors = ['--red', '--blue', '--green'];
+var index = -1;
+
 const h2_counter = document.querySelector('#resource-counter');
 pubSub.subscribe(action => {
     if (action.type !== 'INC_COUNT') {
@@ -29,6 +32,17 @@ pubSub.subscribe(action => {
     // window.incrementalGame.state.counter = count;
     h2_counter.textContent = window.incrementalGame.state.counter;
     // console.log(window.incrementalGame.state.counter);
+
+    const oldColor = getColor(colors, index);
+    if (oldColor) {
+        h2_counter.classList.remove(oldColor);
+    }
+    index ++;
+    index = index % colors.length;
+    window.incrementalGame.state.index = index;
+    const newColor = getColor(colors, index);
+    h2_counter.classList.add(newColor);
+
 });
 
 
@@ -36,35 +50,8 @@ const btn_res = document.querySelector('#btn-res');
 btn_res.addEventListener('click', function() {
     pubSub.publish({
         type: 'INC_COUNT',
-        payload: ++window.incrementalGame.state.counter     
-    });
-});
-    
-
-window.state = {
-    index: -1
-};
-const colors = ['--red', '--blue', '--green'];
-var index = -1;
-pubSub.subscribe(action => {
-    if (action.type !== 'CHANGE_COLOR') {
-        return;
-    }
-    const oldColor = getColor(colors, index);
-    if (oldColor) {
-        h2_counter.classList.remove(oldColor);
-    }
-    index ++;
-    index = index % colors.length;
-    window.state.index = index;
-    const newColor = getColor(colors, index);
-    h2_counter.classList.add(newColor);
-});
-
-btn_res.addEventListener('click', function() {
-    pubSub.publish({
-        type: 'CHANGE_COLOR',
-        payload: window.state.index
+        payload: ++window.incrementalGame.state.counter,
+        color: window.incrementalGame.state.index  
     });
 });
 
