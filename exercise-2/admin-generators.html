@@ -2,53 +2,88 @@
 <html>
 <head>
 	<meta charset="UTF-8">
-	<title>admin-info</title>
+	<title>Incremental Game</title>
+	<link rel="stylesheet" type="text/css" href="style.css">
 </head>
 <body>
-	<header><h1>Incremental Game Framework</h1></header>
-	<nav>
-		<a href="admin-info.html">Game Information</a>
-		<a href="admin-generators.html">Generators</a>
-		<a href="admin-events.html">Events</a>
-	</nav>
-	<form action="#">
-		<label>Generator Name:</label>
-		<input type="text" value="Grandma" readonly>
-		<label>Generator Rate</label>
-		<input type="text" value="0.05" readonly>
-		<label>Base Cost</label>
-		<input type="text" value="10" readonly>
-		<label>Unlock at</label>
-		<input type="text" value="10" readonly>
-		<label>Description</label>
-		<textarea readonly></textarea>
-		<input type="submit" id="btn_save" name="btn_save" value="{Add|Edit}" >
-	</form>
-		<table style="width:30%">
-		  <tr>
-		    <th>Name</th>
-		    <th>Rate</th> 
-		    <th>Cost</th>
-		    <th>Unlock At</th>
-		  </tr>
-		  <tr>
-		    <td>Grandma</td>
-		    <td>5</td> 
-		    <td>10</td>
-		    <td>5</td>
-		  </tr>
-		  <tr>
-		    <td>Factory</td>
-		    <td>10</td> 
-		    <td>50</td>
-		    <td>50</td>
-		  </tr>
-		  <tr>
-		    <td>Mine</td>
-		    <td>20</td> 
-		    <td>200</td>
-		    <td>200</td>
-		  </tr>
-		</table>	
+	<div class = "main">
+		<div class = "header">
+			<header><h1>Incremental Game Framework</h1></header>
+		</div>
+		<div class = "nav">
+			<nav>
+				<a href="admin-info.html">Game Information</a> |
+				<a href="admin-generators.html">Generators</a> |
+				<a href="admin-events.html">Events</a>
+			</nav>
+		</div>
+		<div class = "flex">
+			<div class = "flex-form">
+				<ul class = "form">
+					<li>
+						<label for = "event_name">Generator Name:</label>
+					</li>
+					<li>
+						<input type="text" id ="event_name" value="Grandma">
+					</li>
+					<li>
+						<label for = "rate">Generator Rate</label>
+					</li>
+					<li>
+						<input type="text" id = "rate" value="0.05">
+					</li>
+					<li>
+						<label for = "cost">Base Cost</label>
+					</li>
+					<li>
+						<input type="text" id = "cost" value="10">
+					</li>
+					<li>
+						<label for = "unlock_at">Unlock at</label>
+					</li>
+					<li>
+						<input type="text" id = "unlock_at" value="10">
+					</li>
+					<li>
+						<label for = "description">Description</label>
+					</li>
+					<li>
+						<textarea id = "description" ></textarea>
+					</li>
+					<li>
+						<button id="btn_save" name="btn_save">{Add|Edit}</button>
+					</li>
+				</ul>
+			</div>
+			<div class = "table">
+				<table>
+				  <tr>
+				    <th>Name</th>
+				    <th>Rate</th> 
+				    <th>Cost</th>
+				    <th>Unlock At</th>
+				  </tr>
+				  <tr>
+				    <td>Grandma</td>
+				    <td>5</td> 
+				    <td>10</td>
+				    <td>5</td>
+				  </tr>
+				  <tr>
+				    <td>Factory</td>
+				    <td>10</td> 
+				    <td>50</td>
+				    <td>50</td>
+				  </tr>
+				  <tr>
+				    <td>Mine</td>
+				    <td>20</td> 
+				    <td>200</td>
+				    <td>200</td>
+				  </tr>
+				</table>
+			</div>	
+		</div>
+	</div>
 </body>
 </html>
