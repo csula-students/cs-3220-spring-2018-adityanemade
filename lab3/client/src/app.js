@@ -9,6 +9,7 @@ import CounterComponent from './views/counter';
 import ExampleComponent from './views/example';
 import GeneratorComponent from './views/generator';
 import StoryBookComponent from './views/story-book';
+import constants from './constants';
 
 /**
  * Data flow diagram
@@ -77,13 +78,47 @@ function main () {
 	const initialState = {
 		example: 'Hello custom element',
 		counter: 0,
-		generators: [],
+		generators: [
+			{
+				type: 0,
+				name: 'generator-1',
+				title: 'Punch',
+				description: '1 punch generates 5 hits per second',
+				rate: 5,
+				quantity: 0,
+				baseCost: 10,
+				unlockValue: 10,
+				disableButton: true
+			},
+			{
+				type: 1,
+				name: 'generator-2',
+				title: 'Jab',
+				description: '1 jab generates 10 hits per second',
+				rate: 10,
+				quantity: 0,
+				baseCost: 100,
+				unlockValue: 100,
+				disableButton: true
+			},
+			{
+				type: 2,
+				name: 'generator-3',
+				title: 'Kick',
+				description: '1 kick 20 hits per second',
+				rate: 20,
+				quantity: 0,
+				baseCost: 1000,
+				unlockValue: 1000,
+				disableButton: true
+			}
+		],
 		story: []
 	};
 
 	// initialize store
 	const store = new Store(reducer, initialState);
-	console.log(ExampleComponent(store));
+	// console.log(ExampleComponent(store));
 
 	// define web components
 	window.customElements.define('component-example', ExampleComponent(store));
@@ -99,6 +134,8 @@ function main () {
 	// ps: window is global
 	window.store = store;
 
+	window.globalGeneratorRate = 0;
+
 	// start game loop
-	loop(store);
+	// loop(store);
 }
