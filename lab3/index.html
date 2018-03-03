@@ -1,61 +1,27 @@
 <!DOCTYPE html>
 <html>
-<head>
-	<title>Incremental Game</title>
-	<link rel="stylesheet" type="text/css" href="app.css">
-	<link href="https://fonts.googleapis.com/css?family=Lobster|Nanum+Brush+Script" rel="stylesheet">
-</head>
-<body>
-	<div class = "main">
-		<div class = "game-header">
-			<header>
-	        	<h1>{Incremental Game}</h1>
-	    	</header>
+	<head>
+		<title>Stress Reliever</title>
+
+		<!-- Custom Modules -->
+		<link rel="stylesheet" type="text/css" href="app.css">
+
+		<!-- Built-in Modules -->
+		<link href="https://fonts.googleapis.com/css?family=Lobster|Nanum+Brush+Script" rel="stylesheet">
+	</head>
+	<body>
+		<!-- 
+			* Application Layout
+		-->
+		<game-story-book></game-story-book>
+		<div class = "game-resource">
+			<game-counter></game-counter>
+			<game-button></game-button>
 		</div>
-		<div class = "game-story">
-			Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed scelerisque nunc suscipit magna sagittis, ac dictum quam elementum. Sed pharetra placerat libero, eget porta libero consectetur quis. Nulla facilisi. Nulla facilisi. Duis aliquet mauris et imperdiet imperdiet. Vivamus quis nisl a sem elementum rutrum ut gravida dui. Aenean feugiat vel ex a consequat. Fusce vel consectetur justo. Donec vehicula efficitur nunc et auctor. Maecenas at nisi a sem venenatis egestas. Nunc laoreet neque mauris, eget iaculis justo vehicula vitae.
-			Donec bibendum tincidunt sagittis. Fusce a elit at elit dapibus dictum. Aliquam elit velit, aliquet nec justo at, accumsan efficitur mi. Ut et quam eget libero dignissim venenatis id a nulla. Praesent tempus sapien vel orci sodales vehicula. Morbi non ipsum sed ligula pellentesque egestas. Donec at tellus ac mauris iaculis semper. Phasellus sit amet ultricies dui, non vehicula purus. Aenean eu semper enim, vitae faucibus purus. Interdum et malesuada fames ac ante ipsum primis in faucibus. Integer sit amet luctus libero.
-			Donec bibendum tincidunt sagittis. Fusce a elit at elit dapibus dictum. Aliquam elit velit, aliquet nec justo at, accumsan efficitur mi. Ut et quam eget libero dignissim venenatis id a nulla. Praesent tempus sapien vel orci sodales vehicula. Morbi non ipsum sed ligula pellentesque egestas. Donec at tellus ac mauris iaculis semper. Phasellus sit amet ultricies dui, non vehicula purus. Aenean eu semper enim, vitae faucibus purus. Interdum et malesuada fames ac ante ipsum primis in faucibus. Integer sit amet luctus libero.
-			Donec bibendum tincidunt sagittis. Fusce a elit at elit dapibus dictum. Aliquam elit velit, aliquet nec justo at, accumsan efficitur mi. Ut et quam eget libero dignissim venenatis id a nulla. Praesent tempus sapien vel orci sodales vehicula. Morbi non ipsum sed ligula pellentesque egestas. Donec at tellus ac mauris iaculis semper. Phasellus sit amet ultricies dui, non vehicula purus. Aenean eu semper enim, vitae faucibus purus. Interdum et malesuada fames ac ante ipsum primis in faucibus. Integer sit amet luctus libero.
+		<game-generator></game-generator>
+		<script type="text/javascript" src="dest/app.bundle.js"></script>
+		<div class = "footer">
+			<footer>&copy; Copyright 2018, Aditya Nemade</footer>
 		</div>
-    	<div class = "game-resource">
-	    		<h2>{Resource Name}:</h2>
-	    		<h2 id = "resource-counter" class = "resource-counter">0</h2>
-	    		<button id ="btn-res">{Action}</button>
-	    </div>
-	    <div class = "game-generator">
-	    	<div class = "generator-1">
-	    		<p class = "generator-amount">0</p>
-	    		<h3>{Generator Name}</h3>	
-	    		<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed scelerisque nunc suscipit magna sagittis</p>
-	    		<button class = "btn-generator">{Action}</button>
-	    		<p class = "generator-time">5/60</p>
-	    	</div>
-	    	<div class = "generator-2">
-	    		<p class = "generator-amount">0</p>
-	    		<h3>{Generator Name}</h3>	
-	    		<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed scelerisque nunc suscipit magna sagittis</p>
-	    		<button class = "btn-generator">{Action}</button>
-	    		<p class = "generator-time">5/60</p>
-	    	</div>
-	    	<div class = "generator-3">
-	    		<p class = "generator-amount">0</p>
-	    		<h3>{Generator Name}</h3>	
-	    		<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed scelerisque nunc suscipit magna sagittis</p>
-	    		<button class = "btn-generator">{Action}</button>
-	    		<p class = "generator-time">5/60</p>
-	    	</div>
-	    </div>
-	</div>
-</body>
-<script>
-    window.incrementalGame = {
-        state: {
-            counter: 0,
-            index: -1
-        }
-    };
-</script>
-<script type="text/javascript" src = "app.js"></script>
-<script type="text/javascript" src = "dest/app.bundle.js"></script>
+	</body>
 </html>
