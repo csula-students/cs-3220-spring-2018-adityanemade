@@ -15,7 +15,16 @@
 	display: flex;
 	align-items: stretch;
 }
-.game-resource #resource-counter {
+/*.game-resource #resource-counter {
+	padding-left: 5px;
+	flex: 1;
+}*/
+game-counter{
+	padding-left: 5px;
+	flex: 1;
+	display: flex;
+}
+#resource-counter{
 	padding-left: 5px;
 	flex: 1;
 }
@@ -76,4 +85,17 @@ button {
 button:hover {
     background-color: black;
     color: #ffab00;
+}
+.btn-generator:disabled {
+    background: #dddddd;
+    box-shadow: 0 0px 0px 0 rgba(0,0,0,0.2), 0 0px 0px 0 rgba(0,0,0,0.19);
+    color: black;
+    cursor: no-drop;
+}
+.footer {
+    position:fixed;
+    bottom:0;
+    text-align: center;
+    width:100%;
+    display:block;
 }
