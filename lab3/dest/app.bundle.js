@@ -1046,11 +1046,49 @@ exports.default = function (store) {
 
 			this.rateChangeIncrement = null;
 			this.calledOnce = false;
-			this.buttonClicked = null;
 
 			this.onStateChange = this.handleStateChange.bind(this);
 
 			// TODO: render generator initial view
+
+
+			// TODO: subscribe to store on change event
+
+			// TODO: add click event
+		}
+
+		handleStateChange(newState) {
+			newState.generators.forEach(g => {
+				g.disableButton = newState.counter < g.unlockValue;
+				document.getElementById(g.name + "_" + g.type).disabled = g.disableButton;
+				document.getElementById("generator-quantity_" + g.type).innerHTML = g.quantity;
+
+				const gModel = new _generator2.default(g);
+
+				if (this.buttonClicked === g.type) {
+					this.buttonClicked = null;
+					// g.rate = gModel.generate();
+					document.getElementById("generator-rate_" + g.type).innerHTML = gModel.generate() + "/60";
+				}
+				// document.getElementById(g.name + "_" + g.type).innerHTML = g.baseCost + " Resources";
+				document.getElementById(g.name + "_" + g.type).innerHTML = g.unlockValue + " Resources";
+			});
+
+			if (window.globalGeneratorRate > 0) {
+				// console.log("globalGeneratorRate: ", window.globalGeneratorRate);
+				if (window.store.incrementTime) clearTimeout(window.store.incrementTime);
+				window.store.incrementTime = setTimeout(function () {
+					this.store.dispatch({
+						type: _constants2.default.actions.INCREMENT,
+						payload: window.globalGeneratorRate
+					});
+				}, 1000);
+			}
+		}
+
+		connectedCallback() {
+			// console.log("GeneratorComponent#connectedCallback");
+			this.buttonClicked = null;
 			const parent = window.document.createElement('div');
 			parent.className = "game-generator";
 
@@ -1099,42 +1137,6 @@ exports.default = function (store) {
 
 			this.append(parent);
 
-			// TODO: subscribe to store on change event
-
-			// TODO: add click event
-		}
-
-		handleStateChange(newState) {
-			newState.generators.forEach(g => {
-				g.disableButton = newState.counter < g.unlockValue;
-				document.getElementById(g.name + "_" + g.type).disabled = g.disableButton;
-				document.getElementById("generator-quantity_" + g.type).innerHTML = g.quantity;
-
-				const gModel = new _generator2.default(g);
-
-				if (this.buttonClicked === g.type) {
-					this.buttonClicked = null;
-					// g.rate = gModel.generate();
-					document.getElementById("generator-rate_" + g.type).innerHTML = gModel.generate() + "/60";
-				}
-				// document.getElementById(g.name + "_" + g.type).innerHTML = g.baseCost + " Resources";
-				document.getElementById(g.name + "_" + g.type).innerHTML = g.unlockValue + " Resources";
-			});
-
-			if (window.globalGeneratorRate > 0) {
-				// console.log("globalGeneratorRate: ", window.globalGeneratorRate);
-				if (window.store.incrementTime) clearTimeout(window.store.incrementTime);
-				window.store.incrementTime = setTimeout(function () {
-					this.store.dispatch({
-						type: _constants2.default.actions.INCREMENT,
-						payload: window.globalGeneratorRate
-					});
-				}, 1000);
-			}
-		}
-
-		connectedCallback() {
-			// console.log("GeneratorComponent#connectedCallback");
 			this.store.subscribe(this.onStateChange);
 		}
 

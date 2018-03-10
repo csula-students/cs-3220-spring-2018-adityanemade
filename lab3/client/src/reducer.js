@@ -11,7 +11,7 @@ export default function reducer (state, action) {
 			return state;
 		break;
 		case constants.actions.BUY_GENERATOR:
-			const currentGenerator = action.payload || 0;
+			const currentGenerator = action.generatorClicked || 0;
 
 			const gModelCost = new Generator(state.generators[currentGenerator]);
 			// state.counter -= state.generators[currentGenerator].baseCost;
@@ -23,7 +23,7 @@ export default function reducer (state, action) {
 			// state.generators[currentGenerator].baseCost = Math.ceil(gModel.getCost());
 			// console.log(Math.ceil(gModel.getCost()));
 			
-			state.generators[currentGenerator].unlockValue = Math.ceil(gModel.getCost());
+			state.generators[currentGenerator].unlockValue = Math.floor(gModel.getCost());
 
 			// console.log("base cost reducer = ",state.generators[currentGenerator].baseCost);
 			state.counter = (state.counter < 0) ? 0: state.counter;

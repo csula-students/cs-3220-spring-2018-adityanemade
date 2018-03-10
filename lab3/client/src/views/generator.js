@@ -10,58 +10,12 @@ export default function (store) {
 
 			this.rateChangeIncrement = null;
 			this.calledOnce = false;
-			this.buttonClicked = null;
+			
 
 			this.onStateChange = this.handleStateChange.bind(this);
 
 			// TODO: render generator initial view
-			const parent = window.document.createElement('div');
-			parent.className = "game-generator";
-
-	    	this.store.state.generators.forEach((g) => {
-	    		const gModel = new Generator(g);
-	    		const generator = window.document.createElement('div');
-	    		generator.className = g.name;
-
-	    		const generatorPara = window.document.createElement('p');
-	    		generatorPara.id = "generator-quantity_" + g.type;
-	    		generatorPara.className = "generator-amount";
-	    		generatorPara.innerHTML = g.quantity;
-	    		generator.appendChild(generatorPara);
-
-	    		const generatorTitle = window.document.createElement('h3');
-	    		generatorTitle.innerHTML = g.title;
-	    		generator.appendChild(generatorTitle);
-
-	    		const generatorBody = window.document.createElement('p');
-	    		generatorBody.innerHTML = g.description;
-	    		generator.appendChild(generatorBody);
-
-	    		const generatorButton = window.document.createElement('button');
-	    		generatorButton.id = g.name + "_" + g.type;
-	    		generatorButton.className = "btn-generator";
-	    		// generatorButton.innerHTML = Math.ceil(gModel.getCost()) + " Resources";
-	    		generatorButton.innerHTML = g.unlockValue + " Resources";
-	    		generatorButton.disabled = g.disableButton;
-				generatorButton.addEventListener('click', (event) => {
-					this.buttonClicked = g.type;
-					this.store.dispatch({
-						type: constants.actions.BUY_GENERATOR,
-						payload: g.type
-					});
-				});
-	    		generator.appendChild(generatorButton);
-
-	    		const generatorPara2 = window.document.createElement('p');
-	    		generatorPara2.id = "generator-rate_" + g.type;
-	    		generatorPara2.className = "generator-amount";
-	    		generatorPara2.innerHTML = gModel.generate() + "/60";
-	    		generator.appendChild(generatorPara2);
-
-	    		parent.appendChild(generator);
-	    	});
-
-			this.append(parent);
+			
 
 			// TODO: subscribe to store on change event
 
@@ -101,6 +55,55 @@ export default function (store) {
 
 		connectedCallback () {
 			// console.log("GeneratorComponent#connectedCallback");
+			this.buttonClicked = null;
+			const parent = window.document.createElement('div');
+			parent.className = "game-generator";
+
+	    	this.store.state.generators.forEach((g) => {
+	    		const gModel = new Generator(g);
+	    		const generator = window.document.createElement('div');
+	    		generator.className = g.name;
+
+	    		const generatorPara = window.document.createElement('p');
+	    		generatorPara.id = "generator-quantity_" + g.type;
+	    		generatorPara.className = "generator-amount";
+	    		generatorPara.innerHTML = g.quantity;
+	    		generator.appendChild(generatorPara);
+
+	    		const generatorTitle = window.document.createElement('h3');
+	    		generatorTitle.innerHTML = g.title;
+	    		generator.appendChild(generatorTitle);
+
+	    		const generatorBody = window.document.createElement('p');
+	    		generatorBody.innerHTML = g.description;
+	    		generator.appendChild(generatorBody);
+
+	    		const generatorButton = window.document.createElement('button');
+	    		generatorButton.id = g.name + "_" + g.type;
+	    		generatorButton.className = "btn-generator";
+	    		// generatorButton.innerHTML = Math.ceil(gModel.getCost()) + " Resources";
+	    		generatorButton.innerHTML = g.unlockValue + " Resources";
+	    		generatorButton.disabled = g.disableButton;
+				generatorButton.addEventListener('click', (event) => {
+					this.buttonClicked = g.type;
+					this.store.dispatch({
+						type: constants.actions.BUY_GENERATOR,
+						generatorClicked: g.type
+					});
+				});
+	    		generator.appendChild(generatorButton);
+
+	    		const generatorPara2 = window.document.createElement('p');
+	    		generatorPara2.id = "generator-rate_" + g.type;
+	    		generatorPara2.className = "generator-amount";
+	    		generatorPara2.innerHTML = gModel.generate() + "/60";
+	    		generator.appendChild(generatorPara2);
+
+	    		parent.appendChild(generator);
+	    	});
+
+			this.append(parent);
+			
 			this.store.subscribe(this.onStateChange);
 		}
 
