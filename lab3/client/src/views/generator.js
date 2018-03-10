@@ -1,5 +1,6 @@
 import constants from '../constants';
 import Generator from '../models/generator';
+import {loop} from '../game';
 
 export default function (store) {
 	return class GeneratorComponent extends window.HTMLElement {
@@ -39,13 +40,14 @@ export default function (store) {
 	    		const generatorButton = window.document.createElement('button');
 	    		generatorButton.id = g.name + "_" + g.type;
 	    		generatorButton.className = "btn-generator";
-	    		generatorButton.innerHTML = Math.ceil(gModel.getCost()) + " Resources";
+	    		// generatorButton.innerHTML = Math.ceil(gModel.getCost()) + " Resources";
+	    		generatorButton.innerHTML = g.unlockValue + " Resources";
 	    		generatorButton.disabled = g.disableButton;
 				generatorButton.addEventListener('click', (event) => {
 					this.buttonClicked = g.type;
 					this.store.dispatch({
 						type: constants.actions.BUY_GENERATOR,
-						generatorClicked: g.type
+						payload: g.type
 					});
 				});
 	    		generator.appendChild(generatorButton);
@@ -77,10 +79,11 @@ export default function (store) {
 
 				if (this.buttonClicked === g.type) {
 					this.buttonClicked = null;
-					g.rate = gModel.generate();
-					document.getElementById("generator-rate_" + g.type).innerHTML = g.rate + "/60";
+					// g.rate = gModel.generate();
+					document.getElementById("generator-rate_" + g.type).innerHTML = gModel.generate() + "/60";
 				}
-				document.getElementById(g.name + "_" + g.type).innerHTML = g.baseCost + " Resources";
+				// document.getElementById(g.name + "_" + g.type).innerHTML = g.baseCost + " Resources";
+				document.getElementById(g.name + "_" + g.type).innerHTML = g.unlockValue + " Resources";
 			});
 
 			if (window.globalGeneratorRate > 0) {

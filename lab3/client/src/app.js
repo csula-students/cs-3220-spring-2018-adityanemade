@@ -137,5 +137,5 @@ function main () {
 	window.globalGeneratorRate = 0;
 
 	// start game loop
-	// loop(store);
+	loop(store);
 }
