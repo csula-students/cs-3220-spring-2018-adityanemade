@@ -60,7 +60,7 @@
 /******/ 	__webpack_require__.p = "";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 2);
+/******/ 	return __webpack_require__(__webpack_require__.s = 3);
 /******/ })
 /************************************************************************/
 /******/ ([
@@ -84,6 +84,40 @@ exports.default = {
 
 /***/ }),
 /* 1 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.loop = loop;
+exports.increment = increment;
+// default interval as 1 second
+const interval = 1000;
+
+/**
+ * loop is main loop of the game, which will be executed once every second (
+ * based on the interval variable configuration)
+ */
+function loop(store) {
+	// TODO: increment counter based on the generators in the state
+	// hint: read how many "generators" in store and iterate through them to
+	//       count how many value to increment to "resource"
+
+
+	// TODO: triggers stories from story to display state if they are passed
+	//       the `triggeredAt` points
+	setTimeout(loop.bind(this, store), interval);
+}
+
+function increment(state, modifier = 1) {
+	return state.counter + 1 * modifier;
+}
+
+/***/ }),
+/* 2 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -147,15 +181,15 @@ class Generator {
 exports.default = Generator;
 
 /***/ }),
-/* 2 */
+/* 3 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-__webpack_require__(3);
+__webpack_require__(4);
 
-var _game = __webpack_require__(6);
+var _game = __webpack_require__(1);
 
 var _store = __webpack_require__(7);
 
@@ -313,11 +347,11 @@ function main() {
 	window.globalGeneratorRate = 0;
 
 	// start game loop
-	// loop(store);
+	(0, _game.loop)(store);
 }
 
 /***/ }),
-/* 3 */
+/* 4 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /* WEBPACK VAR INJECTION */(function(global, process) {(function(){/*
@@ -518,10 +552,10 @@ Eg.whenReady(function(){requestAnimationFrame(function(){window.WebComponents.re
 
 //# sourceMappingURL=webcomponents-lite.js.map
 
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(4), __webpack_require__(5)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(5), __webpack_require__(6)))
 
 /***/ }),
-/* 4 */
+/* 5 */
 /***/ (function(module, exports) {
 
 var g;
@@ -548,7 +582,7 @@ module.exports = g;
 
 
 /***/ }),
-/* 5 */
+/* 6 */
 /***/ (function(module, exports) {
 
 // shim for using process in browser
@@ -738,40 +772,6 @@ process.umask = function() { return 0; };
 
 
 /***/ }),
-/* 6 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-	value: true
-});
-exports.loop = loop;
-exports.increment = increment;
-// default interval as 1 second
-const interval = 1000;
-
-/**
- * loop is main loop of the game, which will be executed once every second (
- * based on the interval variable configuration)
- */
-function loop(store) {
-	// TODO: increment counter based on the generators in the state
-	// hint: read how many "generators" in store and iterate through them to
-	//       count how many value to increment to "resource"
-
-
-	// TODO: triggers stories from story to display state if they are passed
-	//       the `triggeredAt` points
-	setTimeout(loop.bind(this, store), interval);
-}
-
-function increment(state, modifier = 1) {
-	return state.counter + 1 * modifier;
-}
-
-/***/ }),
 /* 7 */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -858,7 +858,7 @@ var _constants = __webpack_require__(0);
 
 var _constants2 = _interopRequireDefault(_constants);
 
-var _generator = __webpack_require__(1);
+var _generator = __webpack_require__(2);
 
 var _generator2 = _interopRequireDefault(_generator);
 
@@ -874,18 +874,24 @@ function reducer(state, action) {
 			return state;
 			break;
 		case _constants2.default.actions.BUY_GENERATOR:
-			const currentGenerator = action.generatorClicked || 0;
+			const currentGenerator = action.payload || 0;
 
-			state.counter -= state.generators[currentGenerator].baseCost;
+			const gModelCost = new _generator2.default(state.generators[currentGenerator]);
+			// state.counter -= state.generators[currentGenerator].baseCost;
+			state.counter -= Math.ceil(gModelCost.getCost());
 			state.generators[currentGenerator].quantity += 1;
 
 			const gModel = new _generator2.default(state.generators[currentGenerator]);
-			state.generators[currentGenerator].baseCost = Math.ceil(gModel.getCost());
+			// state.generators[currentGenerator].baseCost = Math.ceil(gModel.getCost());
+			// console.log(Math.ceil(gModel.getCost()));
+
+			state.generators[currentGenerator].unlockValue = Math.ceil(gModel.getCost());
 
 			// console.log("base cost reducer = ",state.generators[currentGenerator].baseCost);
 			state.counter = state.counter < 0 ? 0 : state.counter;
 
-			state.generators[currentGenerator].unlockValue = state.generators[currentGenerator].baseCost;
+			// state.generators[currentGenerator].unlockValue = state.generators[currentGenerator].baseCost;
+
 
 			// console.log(state.generators[currentGenerator].unlockValue);
 
@@ -914,20 +920,21 @@ exports.default = function (store) {
 		constructor() {
 			super();
 			this.store = store;
+		}
 
-			/*
-    * Generating action button
-    */
+		connectedCallback() {
+			//this.store.subscribe(this.onStateChange);
 			this.innerHTML = "<button id =\"btn-res\">Slaps</button>";
-
-			// TODO: add click event to increment counter
-			// hint: use "store.dispatch" method (see example component)
 			this.addEventListener('click', () => {
 				this.store.dispatch({
 					type: _constants2.default.actions.INCREMENT,
 					payload: window.globalGeneratorRate + 1
 				});
 			});
+		}
+
+		disconnectedCallback() {
+			this.store.unsubscribe(this.onStateChange);
 		}
 	};
 };
@@ -954,20 +961,15 @@ exports.default = function (store) {
 		constructor() {
 			super();
 			this.store = store;
-			// TODO: render counter inner HTML based on the store state
-
-			this.innerHTML = "<h2>Hits:</h2><h2 id=\"resource-counter\" class=\"resource-counter\">" + this.store.state.counter + "</h2>";
-
 			this.onStateChange = this.handleStateChange.bind(this);
 		}
 
 		handleStateChange(newState) {
-			// console.log('CounterComponent#stateChange', this, newState);
-			// TODO: update inner HTML based on the new state
 			document.getElementById('resource-counter').innerHTML = this.store.state.counter;
 		}
 
 		connectedCallback() {
+			this.innerHTML = "<h2>Hits:</h2><h2 id=\"resource-counter\" class=\"resource-counter\">" + this.store.state.counter + "</h2>";
 			this.store.subscribe(this.onStateChange);
 		}
 
@@ -1074,13 +1076,14 @@ exports.default = function (store) {
 				const generatorButton = window.document.createElement('button');
 				generatorButton.id = g.name + "_" + g.type;
 				generatorButton.className = "btn-generator";
-				generatorButton.innerHTML = Math.ceil(gModel.getCost()) + " Resources";
+				// generatorButton.innerHTML = Math.ceil(gModel.getCost()) + " Resources";
+				generatorButton.innerHTML = g.unlockValue + " Resources";
 				generatorButton.disabled = g.disableButton;
 				generatorButton.addEventListener('click', event => {
 					this.buttonClicked = g.type;
 					this.store.dispatch({
 						type: _constants2.default.actions.BUY_GENERATOR,
-						generatorClicked: g.type
+						payload: g.type
 					});
 				});
 				generator.appendChild(generatorButton);
@@ -1111,10 +1114,11 @@ exports.default = function (store) {
 
 				if (this.buttonClicked === g.type) {
 					this.buttonClicked = null;
-					g.rate = gModel.generate();
-					document.getElementById("generator-rate_" + g.type).innerHTML = g.rate + "/60";
+					// g.rate = gModel.generate();
+					document.getElementById("generator-rate_" + g.type).innerHTML = gModel.generate() + "/60";
 				}
-				document.getElementById(g.name + "_" + g.type).innerHTML = g.baseCost + " Resources";
+				// document.getElementById(g.name + "_" + g.type).innerHTML = g.baseCost + " Resources";
+				document.getElementById(g.name + "_" + g.type).innerHTML = g.unlockValue + " Resources";
 			});
 
 			if (window.globalGeneratorRate > 0) {
@@ -1145,9 +1149,11 @@ var _constants = __webpack_require__(0);
 
 var _constants2 = _interopRequireDefault(_constants);
 
-var _generator = __webpack_require__(1);
+var _generator = __webpack_require__(2);
 
 var _generator2 = _interopRequireDefault(_generator);
+
+var _game = __webpack_require__(1);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -1167,10 +1173,7 @@ exports.default = function (store) {
 		constructor() {
 			super();
 			this.store = store;
-
 			this.onStateChange = this.handleStateChange.bind(this);
-
-			this.innerHTML = "<div class = \"game-header\"><header><h1>Stress Reliever</h1></header></div><div class = \"game-story\">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed scelerisque nunc suscipit magna sagittis, ac dictum quam elementum. Sed pharetra placerat libero, eget porta libero consectetur quis. Nulla facilisi. Nulla facilisi. Duis aliquet mauris et imperdiet imperdiet. Vivamus quis nisl a sem elementum rutrum ut gravida dui. Aenean feugiat vel ex a consequat. Fusce vel consectetur justo. Donec vehicula efficitur nunc et auctor. Maecenas at nisi a sem venenatis egestas. Nunc laoreet neque mauris, eget iaculis justo vehicula vitae. Donec bibendum tincidunt sagittis. Fusce a elit at elit dapibus dictum. Aliquam elit velit, aliquet nec justo at, accumsan efficitur mi. Ut et quam eget libero dignissim venenatis id a nulla. Praesent tempus sapien vel orci sodales vehicula. Morbi non ipsum sed ligula pellentesque egestas. Donec at tellus ac mauris iaculis semper. Phasellus sit amet ultricies dui, non vehicula purus. Aenean eu semper enim, vitae faucibus purus. Interdum et malesuada fames ac ante ipsum primis in faucibus. Integer sit amet luctus libero. Donec bibendum tincidunt sagittis. Fusce a elit at elit dapibus dictum. Aliquam elit velit, aliquet nec justo at, accumsan efficitur mi. Ut et quam eget libero dignissim venenatis id a nulla. Praesent tempus sapien vel orci sodales vehicula. Morbi non ipsum sed ligula pellentesque egestas. Donec at tellus ac mauris iaculis semper. Phasellus sit amet ultricies dui, non vehicula purus. Aenean eu semper enim, vitae faucibus purus. Interdum et malesuada fames ac ante ipsum primis in faucibus. Integer sit amet luctus libero. Donec bibendum tincidunt sagittis. Fusce a elit at elit dapibus dictum. Aliquam elit velit, aliquet nec justo at, accumsan efficitur mi. Ut et quam eget libero dignissim venenatis id a nulla. Praesent tempus sapien vel orci sodales vehicula. Morbi non ipsum sed ligula pellentesque egestas. Donec at tellus ac mauris iaculis semper. Phasellus sit amet ultricies dui, non vehicula purus. Aenean eu semper enim, vitae faucibus purus. Interdum et malesuada fames ac ante ipsum primis in faucibus. Integer sit amet luctus libero.</div>";
 		}
 
 		handleStateChange(newState) {
@@ -1178,7 +1181,8 @@ exports.default = function (store) {
 		}
 
 		connectedCallback() {
-			this.store.subscribe(this.onStateChange);
+			// this.store.subscribe(this.onStateChange);
+			this.innerHTML = "<div class = \"game-header\"><header><h1>Stress Reliever</h1></header></div><div class = \"game-story\">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed scelerisque nunc suscipit magna sagittis, ac dictum quam elementum. Sed pharetra placerat libero, eget porta libero consectetur quis. Nulla facilisi. Nulla facilisi. Duis aliquet mauris et imperdiet imperdiet. Vivamus quis nisl a sem elementum rutrum ut gravida dui. Aenean feugiat vel ex a consequat. Fusce vel consectetur justo. Donec vehicula efficitur nunc et auctor. Maecenas at nisi a sem venenatis egestas. Nunc laoreet neque mauris, eget iaculis justo vehicula vitae. Donec bibendum tincidunt sagittis. Fusce a elit at elit dapibus dictum. Aliquam elit velit, aliquet nec justo at, accumsan efficitur mi. Ut et quam eget libero dignissim venenatis id a nulla. Praesent tempus sapien vel orci sodales vehicula. Morbi non ipsum sed ligula pellentesque egestas. Donec at tellus ac mauris iaculis semper. Phasellus sit amet ultricies dui, non vehicula purus. Aenean eu semper enim, vitae faucibus purus. Interdum et malesuada fames ac ante ipsum primis in faucibus. Integer sit amet luctus libero. Donec bibendum tincidunt sagittis. Fusce a elit at elit dapibus dictum. Aliquam elit velit, aliquet nec justo at, accumsan efficitur mi. Ut et quam eget libero dignissim venenatis id a nulla. Praesent tempus sapien vel orci sodales vehicula. Morbi non ipsum sed ligula pellentesque egestas. Donec at tellus ac mauris iaculis semper. Phasellus sit amet ultricies dui, non vehicula purus. Aenean eu semper enim, vitae faucibus purus. Interdum et malesuada fames ac ante ipsum primis in faucibus. Integer sit amet luctus libero. Donec bibendum tincidunt sagittis. Fusce a elit at elit dapibus dictum. Aliquam elit velit, aliquet nec justo at, accumsan efficitur mi. Ut et quam eget libero dignissim venenatis id a nulla. Praesent tempus sapien vel orci sodales vehicula. Morbi non ipsum sed ligula pellentesque egestas. Donec at tellus ac mauris iaculis semper. Phasellus sit amet ultricies dui, non vehicula purus. Aenean eu semper enim, vitae faucibus purus. Interdum et malesuada fames ac ante ipsum primis in faucibus. Integer sit amet luctus libero.</div>";
 		}
 
 		disconnectedCallback() {
