@@ -60,7 +60,7 @@
 /******/ 	__webpack_require__.p = "";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 2);
+/******/ 	return __webpack_require__(__webpack_require__.s = 3);
 /******/ })
 /************************************************************************/
 /******/ ([
@@ -154,15 +154,58 @@ exports.default = Generator;
 "use strict";
 
 
-__webpack_require__(3);
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+class Story {
+	/**
+  * create a new story based on the meta passed in argument
+  * @constructor
+  * @param {object} meta - the meta data for story
+  */
+	constructor(meta) {
+		this.name = meta.name;
+		this.description = meta.description;
+		this.triggeredAt = meta.triggeredAt;
+		this.state = meta.state;
+	}
 
-var _game = __webpack_require__(6);
+	/**
+  * isUnlockYet checks if this story is ready to be unlocked yet
+  * @param {number} value - the resource value at the moment
+  * @return {boolean} if this story is unlockable
+  */
+	isUnlockYet(value) {
+		// TODO: implement based on doc
+		return this.triggeredAt <= value;
+	}
 
-var _store = __webpack_require__(7);
+	/**
+  * unlock simply unlock the story to visible state
+  */
+	unlock() {
+		// TODO: change the story state to "visible"
+		this.state = "visible";
+	}
+}
+exports.default = Story;
+
+/***/ }),
+/* 3 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+__webpack_require__(4);
+
+var _game = __webpack_require__(7);
+
+var _store = __webpack_require__(8);
 
 var _store2 = _interopRequireDefault(_store);
 
-var _reducer = __webpack_require__(8);
+var _reducer = __webpack_require__(9);
 
 var _reducer2 = _interopRequireDefault(_reducer);
 
@@ -303,7 +346,7 @@ function main() {
 		}, {
 			name: 'story-3',
 			description: 'We have a knockdown',
-			triggeredAt: 100,
+			triggeredAt: 1000,
 			state: 'hidden'
 		}]
 	};
@@ -333,7 +376,7 @@ function main() {
 }
 
 /***/ }),
-/* 3 */
+/* 4 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /* WEBPACK VAR INJECTION */(function(global, process) {(function(){/*
@@ -534,10 +577,10 @@ Eg.whenReady(function(){requestAnimationFrame(function(){window.WebComponents.re
 
 //# sourceMappingURL=webcomponents-lite.js.map
 
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(4), __webpack_require__(5)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(5), __webpack_require__(6)))
 
 /***/ }),
-/* 4 */
+/* 5 */
 /***/ (function(module, exports) {
 
 var g;
@@ -564,7 +607,7 @@ module.exports = g;
 
 
 /***/ }),
-/* 5 */
+/* 6 */
 /***/ (function(module, exports) {
 
 // shim for using process in browser
@@ -754,7 +797,7 @@ process.umask = function() { return 0; };
 
 
 /***/ }),
-/* 6 */
+/* 7 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -795,9 +838,9 @@ function loop(store) {
 	// TODO: triggers stories from story to display state if they are passed
 	//       the `triggeredAt` points
 
-	/*store.dispatch({
- 	type: constants.actions.CHECK_STORY
- });	*/
+	store.dispatch({
+		type: _constants2.default.actions.CHECK_STORY
+	});
 
 	setTimeout(loop.bind(this, store), interval);
 }
@@ -807,7 +850,7 @@ function increment(state, modifier = 1) {
 }
 
 /***/ }),
-/* 7 */
+/* 8 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -878,7 +921,7 @@ function deepCopy(obj) {
 }
 
 /***/ }),
-/* 8 */
+/* 9 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -897,7 +940,7 @@ var _generator = __webpack_require__(1);
 
 var _generator2 = _interopRequireDefault(_generator);
 
-var _story = __webpack_require__(9);
+var _story = __webpack_require__(2);
 
 var _story2 = _interopRequireDefault(_story);
 
@@ -924,54 +967,20 @@ function reducer(state, action) {
 			return state;
 			break;
 		case _constants2.default.actions.CHECK_STORY:
+			state.story.forEach(s => {
+				const sModel = new _story2.default(s);
+				// console.log(sModel.isUnlockYet(state.counter));
+				if (sModel.isUnlockYet(state.counter)) {
+					// sModel.unlock();
+					s.state = "visible";
+				}
+			});
+			// console.log("check story, state now: ", state.story);
 			return state;
 		default:
 			return state;
 	}
 }
-
-/***/ }),
-/* 9 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-	value: true
-});
-class Story {
-	/**
-  * create a new story based on the meta passed in argument
-  * @constructor
-  * @param {object} meta - the meta data for story
-  */
-	constructor(meta) {
-		this.name = meta.name;
-		this.description = meta.description;
-		this.triggeredAt = meta.triggeredAt;
-		this.state = meta.state;
-	}
-
-	/**
-  * isUnlockYet checks if this story is ready to be unlocked yet
-  * @param {number} value - the resource value at the moment
-  * @return {boolean} if this story is unlockable
-  */
-	isUnlockYet(value) {
-		// TODO: implement based on doc
-		return this.triggeredAt <= value;
-	}
-
-	/**
-  * unlock simply unlock the story to visible state
-  */
-	unlock() {
-		// TODO: change the story state to "visible"
-		this.state = "visible";
-	}
-}
-exports.default = Story;
 
 /***/ }),
 /* 10 */
@@ -1232,12 +1241,33 @@ exports.default = function (store) {
 
 		handleStateChange(newState) {
 			// TODO: display story based on the state "resource" and "stories"
-
+			// console.log(newState.story);
+			newState.story.forEach(s => {
+				if (s.state == "visible") {
+					document.getElementById(s.name).style.visibility = s.state;
+					// console.log(document.getElementById(s.name));
+				}
+			});
 		}
 
 		connectedCallback() {
 			// this.store.subscribe(this.onStateChange);
-			this.innerHTML = "<div class = \"game-header\"><header><h1>Stress Reliever</h1></header></div><div class = \"game-story\"></div>";
+			this.innerHTML = "<div class = \"game-header\"><header><h1>Stress Reliever</h1></header></div>";
+			const storyParent = window.document.createElement('div');
+			storyParent.className = "game-story";
+			this.store.state.story.forEach(s => {
+				const sModel = new _story2.default(s);
+				const storyPara = window.document.createElement('span');
+				storyPara.id = s.name;
+				storyPara.innerHTML = s.description;
+				storyPara.style.visibility = s.state;
+				const storyBreak = window.document.createElement('br');
+				storyPara.appendChild(storyBreak);
+				storyParent.appendChild(storyPara);
+			});
+			this.append(storyParent);
+
+			this.store.subscribe(this.onStateChange);
 		}
 
 		disconnectedCallback() {
@@ -1245,6 +1275,16 @@ exports.default = function (store) {
 		}
 	};
 };
+
+var _constants = __webpack_require__(0);
+
+var _constants2 = _interopRequireDefault(_constants);
+
+var _story = __webpack_require__(2);
+
+var _story2 = _interopRequireDefault(_story);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 /***/ })
 /******/ ]);
