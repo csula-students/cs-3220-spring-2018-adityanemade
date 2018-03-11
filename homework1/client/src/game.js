@@ -25,9 +25,9 @@ export function loop (store) {
 	// TODO: triggers stories from story to display state if they are passed
 	//       the `triggeredAt` points
 
-	/*store.dispatch({
+	store.dispatch({
 		type: constants.actions.CHECK_STORY
-	});	*/
+	});	
 
 	setTimeout(loop.bind(this, store), interval);
 }
