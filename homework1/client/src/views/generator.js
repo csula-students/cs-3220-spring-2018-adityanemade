@@ -1,6 +1,5 @@
 import constants from '../constants';
 import Generator from '../models/generator';
-// import {loop} from '../game';
 
 export default function (store) {
 	return class GeneratorComponent extends window.HTMLElement {
