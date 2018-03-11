@@ -116,17 +116,17 @@ function main () {
 		story: [{
 			name: 'story-1',
 			description: 'Oh that is going to hurt',
-			triggeredAt: 5000,
+			triggeredAt: 10,
 			state: 'hidden'
 		},{
 			name: 'story-2',
 			description: 'That face seems to take it pretty well',
-			triggeredAt: 10000,
+			triggeredAt: 100,
 			state: 'hidden'
 		},{
 			name: 'story-3',
 			description: 'We have a knockdown',
-			triggeredAt: 15000,
+			triggeredAt: 1000,
 			state: 'hidden'
 		}]
 	};
