@@ -23,15 +23,13 @@ export default function reducer (state, action) {
 			return state;
 		break;
 		case constants.actions.CHECK_STORY:
-			state.story.forEach((s) => {
+			state.story.forEach((s, index) => {
 				const sModel = new Story(s);
-				// console.log(sModel.isUnlockYet(state.counter));
 				if(sModel.isUnlockYet(state.counter)){
-					// sModel.unlock();
-					s.state = "visible";
+					sModel.unlock();
 				}
+				state.story[index] = sModel;
 			});
-			// console.log("check story, state now: ", state.story);
 			return state;
 		default:
 			return state;
