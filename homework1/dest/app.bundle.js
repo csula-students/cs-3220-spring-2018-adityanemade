@@ -967,15 +967,13 @@ function reducer(state, action) {
 			return state;
 			break;
 		case _constants2.default.actions.CHECK_STORY:
-			state.story.forEach(s => {
+			state.story.forEach((s, index) => {
 				const sModel = new _story2.default(s);
-				// console.log(sModel.isUnlockYet(state.counter));
 				if (sModel.isUnlockYet(state.counter)) {
-					// sModel.unlock();
-					s.state = "visible";
+					sModel.unlock();
 				}
+				state.story[index] = sModel;
 			});
-			// console.log("check story, state now: ", state.story);
 			return state;
 		default:
 			return state;
@@ -1177,7 +1175,6 @@ exports.default = function (store) {
 				const generatorButton = window.document.createElement('button');
 				generatorButton.id = g.name + "_" + g.type;
 				generatorButton.className = "btn-generator";
-				// generatorButton.innerHTML = Math.ceil(gModel.getCost()) + " Resources";
 				generatorButton.innerHTML = g.unlockValue + " Resources";
 				generatorButton.disabled = g.disableButton;
 				generatorButton.addEventListener('click', event => {
@@ -1241,11 +1238,9 @@ exports.default = function (store) {
 
 		handleStateChange(newState) {
 			// TODO: display story based on the state "resource" and "stories"
-			// console.log(newState.story);
 			newState.story.forEach(s => {
 				if (s.state == "visible") {
 					document.getElementById(s.name).style.visibility = s.state;
-					// console.log(document.getElementById(s.name));
 				}
 			});
 		}
