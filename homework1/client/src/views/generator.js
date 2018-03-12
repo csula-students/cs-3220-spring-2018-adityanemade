@@ -64,7 +64,6 @@ export default function (store) {
 	    		const generatorButton = window.document.createElement('button');
 	    		generatorButton.id = g.name + "_" + g.type;
 	    		generatorButton.className = "btn-generator";
-	    		// generatorButton.innerHTML = Math.ceil(gModel.getCost()) + " Resources";
 	    		generatorButton.innerHTML = g.unlockValue + " Resources";
 	    		generatorButton.disabled = g.disableButton;
 				generatorButton.addEventListener('click', (event) => {
