@@ -11,11 +11,9 @@ export default function (store) {
 
 		handleStateChange (newState) {
 			// TODO: display story based on the state "resource" and "stories"
-			// console.log(newState.story);
 			newState.story.forEach((s) => {
 				if(s.state == "visible"){
 					document.getElementById(s.name).style.visibility = s.state;
-					// console.log(document.getElementById(s.name));
 				}
 			});
 		}
