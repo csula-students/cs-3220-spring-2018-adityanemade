@@ -4,4 +4,4 @@ matrix:
       node_js:
         - "8"
       before_script:
-        - cd lab3/client
+        - cd client
