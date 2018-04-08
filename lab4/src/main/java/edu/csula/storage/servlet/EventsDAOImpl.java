@@ -89,8 +89,9 @@ public class EventsDAOImpl implements EventsDAO {
 	@Override
 	public void remove(int id) {
 		// TODO: remove a single event given id
+		int acutalId = id - 1;
 		List<Event> events = getAll();
-		events.remove(id);
+		events.remove(acutalId);
 		this.context.setAttribute(CONTEXT_NAME, events);
 		// getAll().remove(id);
 	}
