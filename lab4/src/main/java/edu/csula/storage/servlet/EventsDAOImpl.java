@@ -70,9 +70,9 @@ public class EventsDAOImpl implements EventsDAO {
 		// int id2 = id1.of(id).get();
 		// events.set(id2,event);
 		// this.context.setAttribute(CONTEXT_NAME, events);
-
+		int acutalId = id - 1;
 		List<Event> events = getAll();
-		events.set(id, event);
+		events.set(acutalId, event);
 		this.context.setAttribute(CONTEXT_NAME, events);
 
 
