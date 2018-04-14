@@ -85,6 +85,6 @@ public class EditEventServlet extends HttpServlet {
 
 		Event event = new Event(id,event_name, description, trigger);
 		dao.set(id,event);
-		response.sendRedirect("/admin/events");
+		response.sendRedirect("events");
 	}
 }
