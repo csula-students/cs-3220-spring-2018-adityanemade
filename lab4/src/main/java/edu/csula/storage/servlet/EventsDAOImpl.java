@@ -47,7 +47,6 @@ public class EventsDAOImpl implements EventsDAO {
 			return new ArrayList<Event>();
 		}
 		return events;
-		// return new ArrayList<>();
 	}
 
 	@Override
@@ -65,17 +64,13 @@ public class EventsDAOImpl implements EventsDAO {
 	@Override
 	public void set(int id, Event event) {
 		// TODO: set a certain event given id to be different from context
-		// ArrayList<Event> events = (ArrayList<Event>) getAll();
-		// Optional id1 = getById(id);
-		// int id2 = id1.of(id).get();
-		// events.set(id2,event);
-		// this.context.setAttribute(CONTEXT_NAME, events);
-		int acutalId = id - 1;
 		List<Event> events = getAll();
-		events.set(acutalId, event);
+		for (int i = 0; i < events.size(); i++){
+			if (events.get(i).getId() == id){
+				events.set(i, event);
+			}
+		}
 		this.context.setAttribute(CONTEXT_NAME, events);
-
-
 	}
 
 	@Override
@@ -89,10 +84,12 @@ public class EventsDAOImpl implements EventsDAO {
 	@Override
 	public void remove(int id) {
 		// TODO: remove a single event given id
-		int acutalId = id - 1;
-		List<Event> events = getAll();
-		events.remove(acutalId);
+		List<Event> events = this.getAll();
+		for (int i = 0; i < events.size(); i++){
+			if (events.get(i).getId() == id){
+				events.remove(i);
+			}
+		}
 		this.context.setAttribute(CONTEXT_NAME, events);
-		// getAll().remove(id);
 	}
 }
