@@ -49,9 +49,6 @@ public class AdminEventsServlet extends HttpServlet {
 		out.println("					<ul class = \"form\">");
 		out.println("						<form method = \"POST\" id=\"events_form\">");
     out.println("             <h3>Add Event</h3>");
-		// if (request.getAttribute("error") != null) {
-    // 			out.println("<span class = \"error\">* Missed out fields</span>");
-    // 		}
 		out.println("							<li><label for = \"event_name\">Event Name:</label></li>");
 		out.println("							<li><input type=\"text\" id = \"event_name\" name = \"event_name\" value=\"\" required></li>");
 		out.println("							<li><label for = \"description\">Event Description</label></li>");
@@ -96,11 +93,6 @@ public class AdminEventsServlet extends HttpServlet {
 		String event_name = request.getParameter("event_name");
 		String description = request.getParameter("event_description");
 		int trigger = Integer.parseInt(request.getParameter("trigger"));
-		// if (event_name == null && description == null && trigger == null ) {
-		// 	request.setAttribute("error", true);
-		// 	doGet(request, response);
-		// }
-
 		Event event = new Event(events.size(),event_name, description, trigger);
 		dao.add(event);
 		response.sendRedirect("events");
