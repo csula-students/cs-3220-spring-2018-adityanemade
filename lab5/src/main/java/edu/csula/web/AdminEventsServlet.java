@@ -100,6 +100,6 @@ public class AdminEventsServlet extends HttpServlet {
 		Event event = new Event(events.size(),event_name, description, trigger);
 		dao.add(event);
 		// response.sendRedirect("events");
-		response.sendRedirect("/admin/events");
+		response.sendRedirect("events");
 	}
 }

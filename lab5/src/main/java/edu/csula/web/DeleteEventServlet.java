@@ -25,6 +25,6 @@ public class DeleteEventServlet extends HttpServlet {
     int id = Integer.parseInt(request.getParameter("delete_Id"));
     dao.remove(id);
 		// response.sendRedirect("events");
-		response.sendRedirect("/admin/events");
+		response.sendRedirect("events");
 	}
 }

@@ -6,7 +6,7 @@
 	<head>
 		<meta charset="UTF-8">
 		<title>Incremental Game</title>
-		<link rel="stylesheet" type="text/css" href="/style.css">
+		<link rel="stylesheet" type="text/css" href="../style.css">
 	</head>
 	<body>
 		<div class="main">
@@ -23,7 +23,7 @@
 			<div class = "flex">
 				<div class = "flex-form">
 					<ul class = "form">
-						<form method = "POST" id="events_form" action = "/admin/events">
+						<form method = "POST" id="events_form" action = "events">
              <h3>Add Event</h3>
 							<li><label for = "event_name">Event Name:</label></li>
 							<li><input type="text" id = "event_name" name = "event_name" required></li>
@@ -48,8 +48,8 @@
     					<td>${ e.name }</td>
     					<td>${ e.description }</td>
     					<td>${ e.triggerAt }</td>
-    					<td><a class = "link_buttons" href='/admin/editEvent?set_Id=${ e.id }'>Edit</a>
-                |<a class = "link_buttons" href='/admin/deleteEvent?delete_Id=${ e.id }'>Delete</a></td>
+    					<td><a class = "link_buttons" href='editEvent?set_Id=${ e.id }'>Edit</a>
+                |<a class = "link_buttons" href='deleteEvent?delete_Id=${ e.id }'>Delete</a></td>
   					</tr>
 					</c:forEach>
 					</table>
