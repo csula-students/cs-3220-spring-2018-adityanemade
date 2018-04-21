@@ -16,38 +16,38 @@ import edu.csula.storage.servlet.EventsDAOImpl;
 import edu.csula.storage.EventsDAO;
 import edu.csula.models.Event;
 
+import edu.csula.storage.servlet.GeneratorsDAOImpl;
+import edu.csula.storage.GeneratorsDAO;
+import edu.csula.models.Generator;
+
 import edu.csula.storage.servlet.UsersDAOImpl;
 import edu.csula.storage.UsersDAO;
 import edu.csula.models.User;
 
-@WebServlet("/admin/events")
-public class AdminEventsServlet extends HttpServlet {
+@WebServlet("/admin/delete")
+public class DeleteServlet extends HttpServlet {
 
 	@Override
 	public void doGet( HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		HttpSession session = request.getSession();
 		UsersDAO userDao = new UsersDAOImpl(session);
 		if (userDao.getAuthenticatedUser().isPresent()) {
-			EventsDAO eventDao = new EventsDAOImpl(getServletContext());
-			Collection<Event> events = eventDao.getAll();
-			request.setAttribute("data", events);
-			request.getRequestDispatcher("/WEB-INF/admin-events.jsp").forward(request, response);
+			int id = Integer.parseInt(request.getParameter("delete_Id"));
+			String ref = request.getHeader("referer");
+			if(ref.contains("events")){
+				EventsDAO eventDao = new EventsDAOImpl(getServletContext());
+		  	Collection<Event> events = eventDao.getAll();
+				eventDao.remove(id);
+				response.sendRedirect("events");
+			}
+			if(ref.contains("generators")){
+				GeneratorsDAO generatorDao = new GeneratorsDAOImpl(getServletContext());
+		  	Collection<Generator> generators = generatorDao.getAll();
+				generatorDao.remove(id);
+				response.sendRedirect("generators");
+			}
 		}else{
 			response.sendRedirect("auth");
 		}
-	}
-
-
-	@Override
-	public void doPost( HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO: handle upsert transaction
-		EventsDAO eventDao = new EventsDAOImpl(getServletContext());
-		Collection<Event> events = eventDao.getAll();
-		String event_name = request.getParameter("event_name");
-		String description = request.getParameter("event_description");
-		int trigger = Integer.parseInt(request.getParameter("trigger"));
-		Event event = new Event(events.size(),event_name, description, trigger);
-		eventDao.add(event);
-		response.sendRedirect("events");
 	}
 }
