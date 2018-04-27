@@ -1,0 +1,99 @@
+.header, .nav{
+		text-align: center;
+}
+.form{
+	list-style: none;
+}
+.flex{
+	display: flex;
+	align-items: stretch;
+}
+.flex-form {
+	padding-left: 1px;
+	flex: 0.5;
+}
+.table{
+	margin-top: 30px;
+}
+.nav-links{
+	padding: 20px;
+}
+.nav-links:hover{
+	background-color: red;
+	color:black;
+}
+button {
+	border-radius: 15px;
+  background-color: white;
+  border: 1px solid black;
+  color: black;
+  padding: 15px 32px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  margin: 4px 2px;
+  cursor: pointer;
+  box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19);
+}
+button:hover {
+  background-color: black;
+  color: #ffab00;
+}
+li{
+	padding: 10px
+}
+input, textarea{
+  background-color: white;
+  border: 1px solid black;
+  color: black;
+  padding: 5px 10px;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  margin: 4px 2px;
+}
+table{
+	border-collapse: collapse;
+	width: 100%;
+}
+tr:nth-child(odd) {
+	background-color: #dddddd;
+}
+tr:hover{
+	background-color: black;
+	color:white;
+}
+th{
+	background-color: #dddddd;
+	padding: 8px;
+}
+td{
+	padding: 8px;
+}
+.link_buttons{
+	border-radius: 15px;
+  background-color: white;
+  border: 1px solid black;
+  color: black;
+  padding: 5px 5px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  margin: 4px 2px;
+  cursor: pointer;
+  box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19);
+}
+.link_buttons:hover{
+  background-color: black;
+  color: #ffab00;
+}
+#logout-btn{
+	position: absolute;
+	right: 0px;
+	top: 0px;
+}
+#error{
+	color: red;
+}
