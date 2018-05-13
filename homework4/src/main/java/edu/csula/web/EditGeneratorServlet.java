@@ -32,7 +32,7 @@ public class EditGeneratorServlet extends HttpServlet {
 			HttpSession session = request.getSession();
 			UsersDAO userDao = new UsersDAOImpl(session);
 			if (userDao.getAuthenticatedUser().isPresent()) {
-				GeneratorsDAO dao = new GeneratorsDAOImpl(getServletContext());
+				GeneratorsDAO dao = new GeneratorsDAOImpl(new Database());
 		  	Collection<Generator> generators = dao.getAll();
 				id = Integer.parseInt(request.getParameter("set_Id"));
 		    Generator generator = null;
@@ -52,7 +52,7 @@ public class EditGeneratorServlet extends HttpServlet {
 	@Override
 	public void doPost( HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO: handle upsert transaction
-    GeneratorsDAO dao = new GeneratorsDAOImpl(getServletContext());
+    GeneratorsDAO dao = new GeneratorsDAOImpl(new Database());
   	Collection<Generator> generators = dao.getAll();
     String name = request.getParameter("generator_name");
 		int rate = Integer.parseInt(request.getParameter("generator_rate"));

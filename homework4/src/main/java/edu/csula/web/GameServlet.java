@@ -30,9 +30,9 @@ import com.google.gson.GsonBuilder;
 public class GameServlet extends HttpServlet {
 	@Override
 	public void doGet( HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-    EventsDAO eventsDao = new EventsDAOImpl(getServletContext());
+    EventsDAO eventsDao = new EventsDAOImpl(new Database());
 		Collection<Event> events = eventsDao.getAll();
-		GeneratorsDAO generatorsDao = new GeneratorsDAOImpl(getServletContext());
+		GeneratorsDAO generatorsDao = new GeneratorsDAOImpl(new Database());
 		Collection<Generator> generators = generatorsDao.getAll();
 		GsonBuilder builder = new GsonBuilder();
 		Gson gson = builder.create();

@@ -39,7 +39,7 @@ public class EditServlet extends HttpServlet {
       int id = Integer.parseInt(request.getParameter("set_Id"));
 			String ref = request.getHeader("referer");
       if(ref.contains("events")){
-				EventsDAO eventDao = new EventsDAOImpl(getServletContext());
+				EventsDAO eventDao = new EventsDAOImpl(new Database());
 		  	Collection<Event> events = eventDao.getAll();
         Event event = null;
         for (Event e : events){
@@ -51,7 +51,7 @@ public class EditServlet extends HttpServlet {
   			request.getRequestDispatcher("/WEB-INF/edit-event.jsp").forward(request, response);
 			}
 			if(ref.contains("generators")){
-				GeneratorsDAO generatorDao = new GeneratorsDAOImpl(getServletContext());
+				GeneratorsDAO generatorDao = new GeneratorsDAOImpl(new Database());
 		  	Collection<Generator> generators = generatorDao.getAll();
         Generator generator = null;
 				for (Generator g : generators){
@@ -71,7 +71,7 @@ public class EditServlet extends HttpServlet {
 	public void doPost( HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
     String ref = request.getParameter("editForm");
     if("editEventForm".equals(ref)){
-      EventsDAO eventDao = new EventsDAOImpl(getServletContext());
+      EventsDAO eventDao = new EventsDAOImpl(new Database());
   		Collection<Event> events = eventDao.getAll();
   		String event_name = request.getParameter("event_name");
   		String description = request.getParameter("description");
@@ -82,7 +82,7 @@ public class EditServlet extends HttpServlet {
   		response.sendRedirect("events");
     }
     if("editGeneratorForm".equals(ref)){
-      GeneratorsDAO generatorDao = new GeneratorsDAOImpl(getServletContext());
+      GeneratorsDAO generatorDao = new GeneratorsDAOImpl(new Database());
     	Collection<Generator> generators = generatorDao.getAll();
       String name = request.getParameter("generator_name");
   		int rate = Integer.parseInt(request.getParameter("generator_rate"));

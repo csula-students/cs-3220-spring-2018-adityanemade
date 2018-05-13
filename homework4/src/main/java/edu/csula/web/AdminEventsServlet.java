@@ -30,7 +30,7 @@ public class AdminEventsServlet extends HttpServlet {
 		HttpSession session = request.getSession();
 		UsersDAO userDao = new UsersDAOImpl(session);
 		if (userDao.getAuthenticatedUser().isPresent()) {
-			EventsDAO eventDao = new EventsDAOImpl(getServletContext());
+			EventsDAO eventDao = new EventsDAOImpl(new Database());
 			Collection<Event> events = eventDao.getAll();
 			request.setAttribute("eventData", events);
 			request.getRequestDispatcher("/WEB-INF/admin-events.jsp").forward(request, response);
@@ -43,7 +43,7 @@ public class AdminEventsServlet extends HttpServlet {
 	@Override
 	public void doPost( HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO: handle upsert transaction
-		EventsDAO eventDao = new EventsDAOImpl(getServletContext());
+		EventsDAO eventDao = new EventsDAOImpl(new Database());
 		Collection<Event> events = eventDao.getAll();
 		String event_name = request.getParameter("event_name");
 		String description = request.getParameter("event_description");

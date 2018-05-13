@@ -37,13 +37,13 @@ public class DeleteServlet extends HttpServlet {
 			int id = Integer.parseInt(request.getParameter("delete_Id"));
 			String ref = request.getHeader("referer");
 			if(ref.contains("events")){
-				EventsDAO eventDao = new EventsDAOImpl(getServletContext());
+				EventsDAO eventDao = new EventsDAOImpl(new Database());
 		  	Collection<Event> events = eventDao.getAll();
 				eventDao.remove(id);
 				response.sendRedirect("events");
 			}
 			if(ref.contains("generators")){
-				GeneratorsDAO generatorDao = new GeneratorsDAOImpl(getServletContext());
+				GeneratorsDAO generatorDao = new GeneratorsDAOImpl(new Database());
 		  	Collection<Generator> generators = generatorDao.getAll();
 				generatorDao.remove(id);
 				response.sendRedirect("generators");

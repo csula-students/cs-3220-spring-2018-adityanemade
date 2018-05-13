@@ -34,7 +34,7 @@ public class EditEventServlet extends HttpServlet {
 			UsersDAO userDao = new UsersDAOImpl(session);
 			id = Integer.parseInt(request.getParameter("set_Id"));
 			if (userDao.getAuthenticatedUser().isPresent()) {
-				EventsDAO dao = new EventsDAOImpl(getServletContext());
+				EventsDAO dao = new EventsDAOImpl(new Database());
 		  	Collection<Event> events = dao.getAll();
 
 		    Event event = null;
@@ -54,7 +54,7 @@ public class EditEventServlet extends HttpServlet {
 	@Override
 	public void doPost( HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO: handle upsert transaction
-		EventsDAO dao = new EventsDAOImpl(getServletContext());
+		EventsDAO dao = new EventsDAOImpl(new Database());
 		Collection<Event> events = dao.getAll();
 		String event_name = request.getParameter("event_name");
 		String description = request.getParameter("description");
